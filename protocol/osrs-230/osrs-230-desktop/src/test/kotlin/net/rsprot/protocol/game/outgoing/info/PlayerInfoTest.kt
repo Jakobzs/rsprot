@@ -70,7 +70,9 @@ class PlayerInfoTest {
         val buffer = packet.content()
         val buffer2 = packet.content()
 
-        println(buffer2.toBitBuf().toString())
+        buffer.toByteArray()
+        val bitbuf = buffer2.toBitBuf()
+        println(bitbuf)
         //println(buffer.array().joinToString("") { java.lang.String.format("%02x", it) })
 
         client.decode(buffer)
