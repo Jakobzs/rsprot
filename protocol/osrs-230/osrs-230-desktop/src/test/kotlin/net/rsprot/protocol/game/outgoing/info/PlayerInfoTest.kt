@@ -68,13 +68,15 @@ class PlayerInfoTest {
         packet.consume()
         println(packet.toString())
         val buffer = packet.content()
-        val buffer2 = packet.content()
+        val bitbuf = packet.content().toBitBuf()
 
-        buffer.toByteArray()
-        val bitbuf = buffer2.toBitBuf()
-        println(bitbuf)
+
+        println("READING BITBUF DATA:")
+        while (bitbuf.isReadable()) {
+            println(bitbuf.gBits(8))
+        }
+        println("FINISHED READING BITBUF DATA")
         //println(buffer.array().joinToString("") { java.lang.String.format("%02x", it) })
-
         client.decode(buffer)
         assertFalse(buffer.isReadable)
     }
