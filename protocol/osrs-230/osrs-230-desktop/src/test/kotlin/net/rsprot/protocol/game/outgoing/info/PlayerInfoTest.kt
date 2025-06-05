@@ -66,7 +66,6 @@ class PlayerInfoTest {
         protocol.update()
         val packet = localPlayerInfo.toPacket()
         packet.consume()
-        println(packet.toString())
         val buffer = packet.content()
         val bitbuf = packet.content().toBitBuf()
 
@@ -78,7 +77,7 @@ class PlayerInfoTest {
         println("FINISHED READING BITBUF DATA")
 
         if (bitbuf.readerIndex() != bitbuf.writerIndex()) {
-            println("!!! NOT ALL DATA WAS READ !!!")
+            throw IllegalStateException("NOT ALL DATA WAS READ !!!")
         }
 
         //println(buffer.array().joinToString("") { java.lang.String.format("%02x", it) })
