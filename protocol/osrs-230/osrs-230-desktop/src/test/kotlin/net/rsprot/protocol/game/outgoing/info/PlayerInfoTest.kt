@@ -76,6 +76,11 @@ class PlayerInfoTest {
             println(bitbuf.gBits(8))
         }
         println("FINISHED READING BITBUF DATA")
+
+        if (bitbuf.readerIndex() != bitbuf.writerIndex()) {
+            println("!!! NOT ALL DATA WAS READ !!!")
+        }
+
         //println(buffer.array().joinToString("") { java.lang.String.format("%02x", it) })
         client.decode(buffer)
         assertFalse(buffer.isReadable)
