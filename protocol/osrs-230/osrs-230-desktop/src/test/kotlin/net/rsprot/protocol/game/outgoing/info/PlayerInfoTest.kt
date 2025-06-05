@@ -2,6 +2,9 @@ package net.rsprot.protocol.game.outgoing.info
 
 import io.netty.buffer.PooledByteBufAllocator
 import io.netty.buffer.Unpooled
+import net.rsprot.buffer.bitbuffer.toBitBuf
+import net.rsprot.buffer.extensions.toByteArray
+import net.rsprot.buffer.extensions.toJagByteBuf
 import net.rsprot.compression.HuffmanCodec
 import net.rsprot.compression.provider.DefaultHuffmanCodecProvider
 import net.rsprot.protocol.common.client.OldSchoolClientType
@@ -63,7 +66,13 @@ class PlayerInfoTest {
         protocol.update()
         val packet = localPlayerInfo.toPacket()
         packet.consume()
+        println(packet.toString())
         val buffer = packet.content()
+        val buffer2 = packet.content()
+
+        println(buffer2.toBitBuf().toString())
+        //println(buffer.array().joinToString("") { java.lang.String.format("%02x", it) })
+
         client.decode(buffer)
         assertFalse(buffer.isReadable)
     }
