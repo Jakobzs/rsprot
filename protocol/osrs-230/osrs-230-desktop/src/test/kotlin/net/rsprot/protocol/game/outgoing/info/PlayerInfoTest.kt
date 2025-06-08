@@ -67,9 +67,8 @@ class PlayerInfoTest {
         val packet = localPlayerInfo.toPacket()
         packet.consume()
         val buffer = packet.content()
+
         val bitbuf = packet.content().toBitBuf()
-
-
         println("READING BITBUF DATA:")
         while (bitbuf.isReadable()) {
             println(bitbuf.gBits(8))
