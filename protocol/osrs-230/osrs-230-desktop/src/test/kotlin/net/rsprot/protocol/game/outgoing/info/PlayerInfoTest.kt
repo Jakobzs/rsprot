@@ -107,7 +107,7 @@ class PlayerInfoTest {
         tick()
         assertCoordEquals()
 
-        for (i in 0..80) {
+        for (i in 0..100) {
             println("Extra tick " + i + "  took ${measureTimeMillis { tick() }}ms")
         }
     }
@@ -146,7 +146,7 @@ class PlayerInfoTest {
         println("Tick 2 took ${time2}ms")
         assertAllCoordsEqual(otherPlayers)
 
-        for (i in 0..80) {
+        for (i in 0..100) {
             println("Extra tick " + i + "  took ${measureTimeMillis { tick() }}ms")
         }
     }
