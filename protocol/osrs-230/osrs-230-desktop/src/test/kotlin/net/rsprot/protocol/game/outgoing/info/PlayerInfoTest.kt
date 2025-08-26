@@ -17,6 +17,7 @@ import net.rsprot.protocol.game.outgoing.info.util.BuildArea
 import net.rsprot.protocol.game.outgoing.info.worker.DefaultProtocolWorker
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import kotlin.system.measureTimeMillis
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
@@ -105,6 +106,10 @@ class PlayerInfoTest {
         updateCoord(0, 3205, 3220)
         tick()
         assertCoordEquals()
+
+        for (i in 0..80) {
+            println("Extra tick " + i + "  took ${measureTimeMillis { tick() }}ms")
+        }
     }
 
     private fun updateCoord(
@@ -126,13 +131,24 @@ class PlayerInfoTest {
             otherPlayers[index] = otherPlayer
             otherPlayer.updateCoord(0, 3205, 3220)
         }
-        tick()
+        val time1 = measureTimeMillis {
+            tick()
+        }
+        println("Tick 1 took ${time1}ms")
+
         assertAllCoordsEqual(otherPlayers)
         for (player in otherPlayers.filterNotNull()) {
             player.updateCoord(0, 3204, 3220)
         }
-        tick()
+        val time2 = measureTimeMillis {
+            tick()
+        }
+        println("Tick 2 took ${time2}ms")
         assertAllCoordsEqual(otherPlayers)
+
+        for (i in 0..80) {
+            println("Extra tick " + i + "  took ${measureTimeMillis { tick() }}ms")
+        }
     }
 
     @Test
