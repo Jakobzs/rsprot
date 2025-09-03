@@ -51,7 +51,7 @@ class PlayerInfoBenchmark {
         protocol =
             PlayerInfoProtocol(
                 allocator,
-                DefaultProtocolWorker(Int.MAX_VALUE, ForkJoinPool.commonPool()),
+                DefaultProtocolWorker(1, ForkJoinPool.commonPool()),
                 factory,
             )
         players = arrayOfNulls(PROTOCOL_CAPACITY)

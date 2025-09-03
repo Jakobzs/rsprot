@@ -66,23 +66,16 @@ class PlayerInfoTest {
     private fun tick() {
         protocol.update()
         val packet = localPlayerInfo.toPacket()
-        packet.consume()
+        //packet.consume()
         val buffer = packet.content()
 
-        val bitbuf = packet.content().toBitBuf()
-        println("READING BITBUF DATA:")
-        while (bitbuf.isReadable()) {
-            println(bitbuf.gBits(8))
-        }
-        println("FINISHED READING BITBUF DATA")
-
-        if (bitbuf.readerIndex() != bitbuf.writerIndex()) {
-            throw IllegalStateException("NOT ALL DATA WAS READ !!!")
+        try {
+            client.decode(buffer)
+            assertFalse(buffer.isReadable)
+        } finally {
+            packet.safeRelease()
         }
 
-        //println(buffer.array().joinToString("") { java.lang.String.format("%02x", it) })
-        client.decode(buffer)
-        assertFalse(buffer.isReadable)
     }
 
     @Test
