@@ -3,6 +3,7 @@ package net.rsprot.protocol.game.outgoing.info
 import io.netty.buffer.ByteBuf
 import io.netty.buffer.PooledByteBufAllocator
 import io.netty.buffer.Unpooled
+import net.rsprot.buffer.bitbuffer.toBitBuf
 import net.rsprot.compression.HuffmanCodec
 import net.rsprot.compression.provider.DefaultHuffmanCodecProvider
 import net.rsprot.protocol.common.client.OldSchoolClientType
@@ -92,6 +93,36 @@ class NpcInfoTest {
 
     private fun backingBuffer(): ByteBuf {
         val packet = this.localNpcInfo.toPacket(NpcInfo.ROOT_WORLD)
+
+        when (packet) {
+            is NpcInfoSmallV5 -> {
+                val bitbuf = packet.content().toBitBuf()
+                println("READING NpcInfoSmall BITBUF DATA:")
+                while (bitbuf.isReadable()) {
+                    println(bitbuf.gBits(8))
+                }
+                println("FINISHED READING NpcInfoSmall BITBUF DATA")
+
+
+                if (bitbuf.readerIndex() != bitbuf.writerIndex()) {
+                    throw IllegalStateException("NOT ALL DATA WAS READ IN NpcInfoSmall !!!")
+                }
+            }
+            is NpcInfoLargeV5 -> {
+                val bitbuf = packet.content().toBitBuf()
+                println("READING NpcInfoLarge BITBUF DATA:")
+                while (bitbuf.isReadable()) {
+                    println(bitbuf.gBits(8))
+                }
+                println("FINISHED READING NpcInfoLarge BITBUF DATA")
+
+
+                if (bitbuf.readerIndex() != bitbuf.writerIndex()) {
+                    throw IllegalStateException("NOT ALL DATA WAS READ IN NpcInfoLarge !!!")
+                }
+            }
+        }
+
         packet.markConsumed()
         return when (packet) {
             is NpcInfoSmallV5 -> packet.content()
